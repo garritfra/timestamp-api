@@ -13,6 +13,16 @@ app.use(cors({optionSuccessStatus: 200}));  // some legacy browsers choke on 204
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
+
+var filterInt = function(value) {
+  if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value))
+    return Number(value);
+  return NaN;
+}
+
+
+
+
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (req, res) {
   res.redirect("/api/timestamp/1")
@@ -27,7 +37,7 @@ app.get("/api/hello", function (req, res) {
 
 app.get("/api/timestamp/:timestamp", (req, res) => {
   const input = req.params.timestamp;
-  const inputInt = parseInt(input);
+  const inputInt = filterInt(input);
   let date = null;
   
   if(isNaN(inputInt)) {
@@ -36,7 +46,9 @@ app.get("/api/timestamp/:timestamp", (req, res) => {
     date = new Date(inputInt)  
   }
   
-  res.json({ "unix": date.getTime(), "natural": date.toISOString()});
+  const naturalDateStr = date.toISOString() || "Not a valid date"
+  
+  res.json({ "unix": date.getTime(), "natural": naturalDateStr });
 })
 
 
@@ -45,3 +57,4 @@ app.get("/api/timestamp/:timestamp", (req, res) => {
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
+
