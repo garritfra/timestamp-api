@@ -46,7 +46,14 @@ app.get("/api/timestamp/:timestamp", (req, res) => {
     date = new Date(inputInt)  
   }
   
-  const naturalDateStr = date.toISOString() || "Not a valid date"
+  
+  let naturalDateStr;
+  try {
+      naturalDateStr = date.toUTCString();
+  } catch(e) {
+    naturalDateStr = "Not a valid date"
+  }
+
   
   res.json({ "unix": date.getTime(), "natural": naturalDateStr });
 })
