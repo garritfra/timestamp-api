@@ -27,9 +27,11 @@ app.get("/api/hello", function (req, res) {
 
 app.get("/api/timestamp/:timestamp", (req, res) => {
   const inputStr = req.params.timestamp;
-  const date = Date.parse(inputStr);
-  console.log(JSON.parse(date))
-  res.send(date.toString())
+  const inputInt = 
+  if(Integer)
+  
+  const date = new Date(inputStr);
+  res.json({"date": date.toISOString()})
 })
 
 
