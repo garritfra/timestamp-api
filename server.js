@@ -15,6 +15,7 @@ app.use(express.static('public'));
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (req, res) {
+  res.redirect("/api/timestamp/1")
   res.sendFile(__dirname + '/views/index.html');
 });
 
@@ -27,7 +28,8 @@ app.get("/api/hello", function (req, res) {
 app.get("/api/timestamp/:timestamp", (req, res) => {
   const inputStr = req.params.timestamp;
   const date = Date.parse(inputStr);
-  res.send(date)
+  console.log(JSON.parse(date))
+  res.send(date.toString())
 })
 
 
