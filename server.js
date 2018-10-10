@@ -26,12 +26,17 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/timestamp/:timestamp", (req, res) => {
-  const inputStr = req.params.timestamp;
-  const inputInt = 
-  if(Integer)
+  const input = req.params.timestamp;
+  const inputInt = parseInt(input);
+  let date = null;
   
-  const date = new Date(inputStr);
-  res.json({"date": date.toISOString()})
+  if(isNaN(inputInt)) {
+    date = new Date(input);
+  } else {
+    date = new Date(inputInt)  
+  }
+  
+  res.json({ "unix": date.getTime(), "natural": date.toISOString()});
 })
 
 
